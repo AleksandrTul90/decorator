@@ -38,4 +38,3 @@ pytest --cov=decorators --cov-report=html
 ```
 
 После запуска появится папка `htmlcov/` с HTML-отчётом.
-
