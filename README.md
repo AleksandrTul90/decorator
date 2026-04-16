@@ -12,7 +12,7 @@
 ## Пример
 
 ```python
-from decorators import log
+from src.decorators import log
 
 
 @log()
@@ -34,7 +34,7 @@ pytest
 ## Покрытие (HTML)
 
 ```bash
-pytest --cov=decorators --cov-report=html
+pytest --cov=src.decorators --cov-report=html
 ```
 
 После запуска появится папка `htmlcov/` с HTML-отчётом.

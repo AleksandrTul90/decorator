@@ -1,2 +1,0 @@
-"""Operations processing subpackage."""
-
