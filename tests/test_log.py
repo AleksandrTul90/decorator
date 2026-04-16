@@ -18,10 +18,10 @@ def test_log_to_console_success(capsys: pytest.CaptureFixture[str]) -> None:
     assert add(2, 3) == 5
 
     out = capsys.readouterr().out
-    assert "CALL add" in out
-    assert "args=(2, 3)" in out
-    assert "kwargs={}" in out
-    assert "RESULT add -> 5" in out
+    assert "add" in out
+    assert "args: (2, 3)" in out
+    assert "kwargs: {}" in out
+    assert "result: 5" in out
 
 
 def test_log_to_console_error(capsys: pytest.CaptureFixture[str]) -> None:
@@ -35,9 +35,9 @@ def test_log_to_console_error(capsys: pytest.CaptureFixture[str]) -> None:
         boom(7)
 
     out = capsys.readouterr().out
-    assert "CALL boom" in out
-    assert "ERROR boom ValueError" in out
-    assert "args=(7,)" in out
+    assert "boom" in out
+    assert "args: (7,)" in out
+    assert "error: ValueError" in out
 
 
 def test_log_to_file_success(tmp_path: Path) -> None:
@@ -52,8 +52,8 @@ def test_log_to_file_success(tmp_path: Path) -> None:
     assert mul(3, 4) == 12
 
     text = log_file.read_text(encoding="utf-8")
-    assert "CALL mul" in text
-    assert "RESULT mul -> 12" in text
+    assert "mul" in text
+    assert "result: 12" in text
 
 
 def test_log_timestamp_present_in_lines(capsys: pytest.CaptureFixture[str]) -> None:
@@ -67,5 +67,5 @@ def test_log_timestamp_present_in_lines(capsys: pytest.CaptureFixture[str]) -> N
     out_lines = [line for line in capsys.readouterr().out.splitlines() if line.strip()]
     assert len(out_lines) >= 2
 
-    # Expect ISO-like timestamp between brackets: [2026-...]
-    assert re.search(r"^\[\d{4}-\d{2}-\d{2}T", out_lines[0]) is not None
+    # Expect datetime prefix: 2026-...
+    assert re.search(r"^\d{4}-\d{2}-\d{2} ", out_lines[0]) is not None

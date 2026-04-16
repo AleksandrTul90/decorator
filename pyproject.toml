@@ -1,10 +1,12 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 addopts = "-q"
+pythonpath = ["."]
 
 [tool.coverage.run]
 branch = true
-source = ["decorators"]
+source = ["."]
+omit = ["*/tests/*"]
 
 [tool.coverage.report]
 show_missing = true
