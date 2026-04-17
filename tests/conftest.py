@@ -88,4 +88,3 @@ def sample_transactions():
 def transactions_with_broken_entry(sample_transactions):
     broken = {"id": 1, "description": "test"}
     return [sample_transactions[0], broken, sample_transactions[1]]
-

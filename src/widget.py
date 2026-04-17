@@ -9,6 +9,7 @@ _ANY_DIGIT_RE = re.compile(r"\d")
 
 
 def mask_account_card(value: str) -> str:
+    """Mask account/card number in a human-readable string."""
     if not value or not _ANY_DIGIT_RE.search(value):
         return value
 
@@ -37,6 +38,7 @@ def mask_account_card(value: str) -> str:
 
 
 def get_date(value: str) -> str:
+    """Convert an ISO-like date string to ``DD.MM.YYYY``; return empty on failure."""
     if not value:
         return ""
 
@@ -50,4 +52,3 @@ def get_date(value: str) -> str:
     except ValueError:
         return ""
     return dt.strftime("%d.%m.%Y")
-

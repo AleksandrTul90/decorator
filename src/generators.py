@@ -12,6 +12,7 @@ def filter_by_currency(
     transactions: list[dict[str, Any]],
     currency: str,
 ) -> Iterator[dict[str, Any]]:
+    """Yield only transactions whose currency code matches ``currency``."""
     for transaction in transactions:
         try:
             op = transaction["operationAmount"]
@@ -26,11 +27,13 @@ def filter_by_currency(
 def transaction_descriptions(
     transactions: list[dict[str, Any]],
 ) -> Iterator[str]:
+    """Yield transaction descriptions as strings (missing values become empty)."""
     for transaction in transactions:
         yield str(transaction.get("description", ""))
 
 
 def card_number_generator(start: int, stop: int) -> Iterator[str]:
+    """Generate masked 16-digit card numbers from ``start`` to ``stop`` inclusive."""
     if start > stop:
         return
     lo = max(1, start)
@@ -40,4 +43,3 @@ def card_number_generator(start: int, stop: int) -> Iterator[str]:
     for n in range(lo, hi + 1):
         digits = f"{n:016d}"
         yield f"{digits[0:4]} {digits[4:8]} {digits[8:12]} {digits[12:16]}"
-

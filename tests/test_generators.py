@@ -52,7 +52,9 @@ def test_filter_by_currency_skips_malformed(transactions_with_broken_entry):
         ),
     ],
 )
-def test_transaction_descriptions_sequence(sample_transactions, take, expected_prefixes):
+def test_transaction_descriptions_sequence(
+    sample_transactions, take, expected_prefixes
+):
     gen = transaction_descriptions(sample_transactions)
     out = [next(gen) for _ in range(take)]
     assert out == expected_prefixes
@@ -143,4 +145,3 @@ def test_card_number_generator_clamps_start_below_one():
         "0000 0000 0000 0001",
         "0000 0000 0000 0002",
     ]
-

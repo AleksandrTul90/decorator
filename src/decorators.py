@@ -8,9 +8,15 @@ from typing import Any, Callable
 def log(
     func: Callable[..., Any] | None = None, /, *, filename: str | None = None
 ) -> Callable[..., Any]:
+    """Log function call args, result, and exceptions to stdout or a file.
+
+    Can be used as ``@log`` or ``@log(filename="...")``.
+    """
     def decorator(inner: Callable[..., Any]) -> Callable[..., Any]:
+        """Decorator implementation for :func:`log`."""
         @wraps(inner)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
+            """Wrapper that performs the actual logging."""
             start_line = (
                 f"{datetime.now()} - {inner.__name__} - args: {args}, kwargs: {kwargs}"
             )
@@ -46,4 +52,3 @@ def log(
     if func is not None:
         return decorator(func)
     return decorator
-

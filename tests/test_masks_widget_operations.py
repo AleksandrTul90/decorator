@@ -61,4 +61,3 @@ def test_sort_by_date_desc(sample_transactions):
 def test_sort_by_date_asc(sample_transactions):
     out = sort_by_date(sample_transactions, reverse=False)
     assert [op["id"] for op in out][:2] == [939719570, 895315941]
-
