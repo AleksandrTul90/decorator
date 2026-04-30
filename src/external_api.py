@@ -74,4 +74,3 @@ def transaction_amount_rub(transaction: Mapping[str, Any]) -> float:
     if currency_code in {"USD", "EUR"}:
         return convert_to_rub(amount, currency_code)
     return amount
-

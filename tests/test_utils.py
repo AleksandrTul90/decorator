@@ -38,4 +38,3 @@ def test_load_transactions_filters_non_dict_entries(tmp_path: Path) -> None:
     p = tmp_path / "ops.json"
     p.write_text('[{"id": 1}, 2, "x", {"id": 3}]', encoding="utf-8")
     assert load_transactions(p) == [{"id": 1}, {"id": 3}]
-

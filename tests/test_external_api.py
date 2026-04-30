@@ -19,7 +19,9 @@ def test_transaction_amount_rub_rub_does_not_call_http() -> None:
         get.assert_not_called()
 
 
-def test_transaction_amount_rub_usd_converts_via_api(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_transaction_amount_rub_usd_converts_via_api(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     monkeypatch.setenv("APILAYER_API_KEY", "test-key")
     tx = {
         "operationAmount": {
@@ -46,4 +48,3 @@ def test_convert_to_rub_http_error(monkeypatch: pytest.MonkeyPatch) -> None:
     with patch("src.external_api.requests.get", return_value=resp):
         with pytest.raises(RuntimeError):
             convert_to_rub(1.0, "USD")
-
