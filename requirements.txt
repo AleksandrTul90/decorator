@@ -3,3 +3,6 @@ pytest-cov
 flake8
 isort
 mypy
+requests
+python-dotenv
+types-requests
