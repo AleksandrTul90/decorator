@@ -1,0 +1,9 @@
+pandas
+openpyxl
+
+pytest
+pytest-cov
+
+flake8
+isort
+mypy
