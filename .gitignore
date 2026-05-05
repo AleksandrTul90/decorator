@@ -25,3 +25,7 @@ logs/
 *.xlsx
 *.csv
 data/
+
+# Include coursework sample file (need to unignore dir first)
+!data/
+!data/operations.xlsx

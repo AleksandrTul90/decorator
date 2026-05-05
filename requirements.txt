@@ -1,5 +1,6 @@
 pandas
 openpyxl
+requests
 
 pytest
 pytest-cov

@@ -1,0 +1,16 @@
+{
+  "user_currencies": ["USD", "EUR"],
+  "user_stocks": ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"],
+  "fallback_currency_rates": {
+    "USD": 92.5,
+    "EUR": 100.0,
+    "GBP": 115.0
+  },
+  "fallback_stock_prices": {
+    "AAPL": 175.0,
+    "AMZN": 180.0,
+    "GOOGL": 140.0,
+    "MSFT": 420.0,
+    "TSLA": 250.0
+  }
+}
