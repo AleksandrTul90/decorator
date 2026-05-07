@@ -23,10 +23,13 @@ PHONE_PATTERN = re.compile(
     re.IGNORECASE,
 )
 
-# Перевод физлицу: «Имя Фамилия» или «Имя Ф.» (+ категория «Переводы»)
-PERSON_TRANSFER_DESC = re.compile(
-    r"^[А-ЯЁA-ZЁ][а-яёa-zё]+\s+"
-    r"(?:[А-ЯЁA-ZЁ][а-яёa-zё]+|[А-ЯЁA-ZЁ]\.)",
+# Перевод физлицу: «Имя Фамилия» или «Имя Ф.» в тексте описания (категория «Переводы»).
+PERSON_TRANSFER_PATTERN = re.compile(
+    r"(?:"
+    r"[А-ЯЁA-ZЁ][а-яёa-zё]+\s+[А-ЯЁA-ZЁ][а-яёa-zё]+"
+    r"|"
+    r"[А-ЯЁA-ZЁ][а-яёa-zё]+\s+[А-ЯЁA-ZЁ]\."
+    r")",
     re.UNICODE,
 )
 
@@ -183,7 +186,7 @@ def transfers_to_individuals_json(transactions: list[dict[str, Any]]) -> str:
         if cat != "Переводы":
             return False
         desc = str(t.get("description") or t.get("Описание") or "").strip()
-        return bool(PERSON_TRANSFER_DESC.match(desc))
+        return bool(PERSON_TRANSFER_PATTERN.search(desc))
 
     found = list(filter(is_transfer_person, transactions))
     return json.dumps(found, ensure_ascii=False, indent=2, default=str)

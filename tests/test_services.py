@@ -64,3 +64,28 @@ def test_transfers_to_individuals() -> None:
     raw = transfers_to_individuals_json(rows)
     found = json.loads(raw)
     assert len(found) == 2
+
+
+def test_transfers_to_individuals_name_not_only_at_line_start() -> None:
+    """Имя и инициал могут идти после текста банка (критерий методички)."""
+    rows = [
+        {
+            "category": "Переводы",
+            "description": "Перевод между счетами. Получатель Валерий А.",
+        },
+        {"category": "Переводы", "description": "Сервис переводов"},
+    ]
+    raw = transfers_to_individuals_json(rows)
+    found = json.loads(raw)
+    assert len(found) == 1
+
+
+def test_phone_format_parentheses_and_leading_8() -> None:
+    rows = [
+        {"description": "Оплата +7 (900) 000-00-00 подписка"},
+        {"description": "Связь 89000000000"},
+        {"description": "без телефона"},
+    ]
+    raw = transactions_with_phone_json(rows)
+    found = json.loads(raw)
+    assert len(found) == 2

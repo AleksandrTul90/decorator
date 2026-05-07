@@ -1,39 +1,41 @@
-# decorator
+# decorator — курсовой проект
 
-## New functionality
+Работа с банковскими операциями: JSON для экранов «Главная» и «События», сервисы анализа (функциональный стиль), отчёты с декоратором записи в файл.
 
-Project now supports reading financial transactions not only from JSON, but also
-from **CSV** and **XLSX** files (via `pandas`).
+## Данные
 
-Implemented in `src/transactions_io.py`:
-
-- `read_transactions_from_csv(path)` → `list[dict]`
-- `read_transactions_from_excel(path)` → `list[dict]`
-
-## Search and categories
-
-Implemented in `src/operations_processing.py`:
-
-- `process_bank_search(data, search)` — search in `description` using `re`
-- `process_bank_operations(data, categories)` — count categories using `Counter`
-
-## Console UI
-
-Interactive flow implemented in `src/main.py` (menu, status filter, optional
-sorting, RUB-only filter and description search).
-
-## Quick usage
-
-```python
-from src.transactions_io import read_transactions_from_csv, read_transactions_from_excel
-
-transactions_csv = read_transactions_from_csv("data/transactions.csv")
-transactions_xlsx = read_transactions_from_excel("data/transactions_excel.xlsx")
-```
-
-Run console program:
+Файл `data/operations.xlsx` — выгрузка операций (как в методичке Т-Банка). При необходимости сгенерировать образец:
 
 ```bash
-python -c "from src.main import main; main()"
+python scripts/generate_sample_excel.py
 ```
 
+## Запуск демонстрации (`main.py`)
+
+Вызов основных функций модулей веб-страниц (`views`), сервисов (`services`) и отчётов (`reports`):
+
+```bash
+python -m src.main
+```
+
+Из корня проекта также работает:
+
+```bash
+python src/main.py
+```
+
+## Модули
+
+| Область | Файл | Назначение |
+|--------|------|------------|
+| Веб (JSON) | `src/views.py` | `build_main_page_json`, `build_events_json` |
+| Сервисы | `src/services.py` | кешбэк, инвесткопилка, поиск, телефоны, переводы физлицам |
+| Отчёты | `src/reports.py` | траты по категории / по дням недели / рабочий vs выходной |
+
+Общие утилиты и чтение Excel: `src/utils.py` (`read_tinkoff_operations_excel`, нормализация колонок).
+
+## Тесты
+
+```bash
+pytest
+```
