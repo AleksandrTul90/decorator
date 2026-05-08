@@ -4,7 +4,16 @@
 
 ## Данные
 
-Файл `data/operations.xlsx` — выгрузка операций (как в методичке Т-Банка). При необходимости сгенерировать образец:
+Исходные транзакции по заданию: [таблица Google Sheets (operations)](https://docs.google.com/spreadsheets/d/1yXnr282zAMcTkEhIwZFaJlPJvAeZIwvB/edit?gid=1794603603#gid=1794603603). Колонки совпадают с выгрузкой Т-Банка (дата операции, сумма платежа, категория, описание и т.д.).
+
+Сохраните лист в формате Excel и положите в проект как **`data/operations.xlsx`**:
+
+1. В Google Таблицах: **Файл → Скачать → Microsoft Excel (.xlsx)**.
+2. Либо выгрузите с банка по инструкции курса и подставьте тот же путь.
+
+Программа и тесты читают `data/operations.xlsx` по умолчанию (см. `read_tinkoff_operations_excel` в `src/utils.py`).
+
+Для локального **тестового** набора без скачивания таблицы можно сгенерировать небольшой пример:
 
 ```bash
 python scripts/generate_sample_excel.py
