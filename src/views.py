@@ -97,32 +97,43 @@ def build_main_page_json(
             if last4 is None or str(last4) == "nan":
                 continue
             total = float(g["spent"].sum())
+            total_spent = round(total, 2)
             card_rows.append(
                 {
                     "last_digits": str(last4),
-                    "total_spent": round(total, 2),
-                    "cashback": float(int(total // 100)),
+                    "total_spent": total_spent,
+                    # 1 рубль кешбэка на каждые 100 рублей трат
+                    "cashback": round(total_spent / 100.0, 2),
                 }
             )
     card_rows.sort(key=lambda x: x["last_digits"])
 
-    top_df = df.reindex(
-        pd.to_numeric(df["amount_payment"], errors="coerce")
-        .abs()
-        .sort_values(ascending=False)
-        .index
-    ).head(5)
+    # Топ-5 по сумме платежа (знак сохраняем).
+    pay_amount = pd.to_numeric(df["amount_payment"], errors="coerce").fillna(0.0)
+    top_df = df.loc[pay_amount.sort_values(ascending=False).head(5).index]
     top_transactions: list[dict[str, Any]] = []
     for _, row in top_df.iterrows():
-        op_d = row["operation_date"]
-        if pd.isna(op_d):
-            continue
-        d_str = op_d.strftime("%d.%m.%Y") if hasattr(op_d, "strftime") else ""
+        op_d = row.get("operation_date") if hasattr(row, "get") else row["operation_date"]
+        pay_d = row.get("payment_date") if hasattr(row, "get") and "payment_date" in row else None
+
+        chosen = None
+        if op_d is not None and not pd.isna(op_d):
+            chosen = op_d
+        elif pay_d is not None and not pd.isna(pay_d):
+            chosen = pay_d
+
+        if hasattr(chosen, "strftime"):
+            d_str = chosen.strftime("%d.%m.%Y")
+        elif isinstance(chosen, str) and chosen.strip():
+            d_str = parse_date_only(chosen).strftime("%d.%m.%Y")
+        else:
+            d_str = ""
+
         amt = float(pd.to_numeric(row["amount_payment"], errors="coerce") or 0.0)
         top_transactions.append(
             {
                 "date": d_str,
-                "amount": round(abs(amt), 2),
+                "amount": round(amt, 2),
                 "category": str(row.get("category", "") or ""),
                 "description": str(row.get("description", "") or ""),
             }
